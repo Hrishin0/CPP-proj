@@ -1,0 +1,104 @@
+<%- include partials/header.ejs %>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      #myButton{
+        background-color: #006de9; /* Green color */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none; /* Remove underline from link */
+        display: inline-block; /* Allow styling as a block element */
+        font-size: 16px;
+        cursor: pointer; /* Indicate clickable behavior */
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/stylesheets/otherstyle.css"/>
+  </head>
+  <body>
+    <title> Current Events</title>
+    <div class="container mt-4">
+      <br />
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Action</th>            </tr>
+        </thead>
+        <tbody>
+          <% if(data.length){ for(var i = 0; i< data.length; i++) {%>
+          <tr>
+            <th scope="row"><%= (i+1) %></th>
+            <td><%= data[i].eventName%></td>
+            <td><%= data[i].placeholder%></td>
+            <td><%= data[i].lat%></td>
+            <td><%= data[i].lng%></td>
+            <td>  <button class="btn btn-outline-danger btn-sm delete-event" data-event-id="<%= data[i].id %>">Delete</button>
+            <button class="btn btn-outline-info btn-sm edit-event" data-event-id="<%= data[i].id %>">Edit</button>
+                </td>
+          </tr>
+          <% } }else{ %>
+          <tr>
+            <td>No data ever existed.</td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+    <div style="text-align: center;">
+      <br/><br/><br/><br/><br/><br/>
+      <a href="https://d3c9nb9b61mr41.cloudfront.net" id="myButton" target="_blank">Click here to watch a short montage on Dublin tourism</a>
+    </div>
+    <script>  
+      const deleteButtons = document.querySelectorAll('.delete-event');
+
+      deleteButtons.forEach(button => {
+          button.addEventListener('click', async function() {
+              const eventId = this.dataset.eventId;  // Get event ID from button data attribute
+
+              try {
+                  const response = await fetch(`/events/${eventId}`, {
+                      method: 'DELETE',
+                  });
+
+                  if (response.ok) {
+                      console.log('Event deleted');
+                      this.parentElement.parentElement.remove();  
+                  } else {
+                      console.error('Error deleting event:', await response.text());
+                      alert('Error deleting event!');
+                  }
+              } catch (error) {
+                  console.error('Error sending DELETE request:', error);
+                  alert('An error occurred. Please try again later.');
+              }
+          });
+        });
+      
+      const editButtons = document.querySelectorAll('.edit-event');
+
+      editButtons.forEach(button => {
+          button.addEventListener('click', function() {
+              const eventId = this.dataset.eventId;
+
+              window.location.href = `/events/edit/${eventId}`;
+          });
+      });
+      
+
+      
+    </script>
+  </body>
+</html>

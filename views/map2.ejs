@@ -1,0 +1,205 @@
+<%- include partials/header.ejs %>
+
+<!DOCTYPE html>
+        <html>
+           <head>
+            <style>
+                input[type=text] {
+                    width: 300px;
+                    box-sizing: border-box;
+                    border: 2px solid #ccc;
+                    border-radius: 4px;
+                    font-size: 16px;
+                    background-color: white;
+                    background-image: url('searchicon.png');
+                    background-position: 10px 10px; 
+                    background-repeat: no-repeat;
+                    padding: 12px 20px 12px 40px;
+                    transition: width 0.4s ease-in-out;
+                    margin-left: 3vw;
+                    text-align: left;
+                    margin-top: 2vh;
+                }
+
+                input[type=text]:focus {
+                    width: 40%;    
+                }
+            </style>
+              <title>Map</title>
+              <link rel = "stylesheet" href = '/stylesheets/otherstyle.css'/>
+           </head>
+           <body id = mapbg onload="initMap()">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+            <div id="map" text-align="center"></div>
+           </div>
+           
+           <input type="text" id="eName" placeholder="Event Name"></br>
+           <input type="text" id="eDescription" placeholder="Event Description"></br>
+
+           <div style="text-align: center;">
+            <span style="color: aliceblue; margin-top:2px; margin-left: 10px;">
+                Drag the black marker to where the new event is taking place, then click the button to create an event there.
+            </span>
+            <button class="btn btn-light" id="makeMapButton" style="margin-top: 10px;" onclick="makeMarkerEvent(), createMarker()">Make a marker</button>
+       </div>
+          <script>
+            
+            let events = [];
+            let map;
+            let markerLat;
+            let markerLong; 
+            // Retrieve existing markers from local storage (if any)
+            const storedEvents = JSON.parse(localStorage.getItem("events"));
+            if (storedEvents) {
+                events = storedEvents;
+                }else if(!storedEvents){
+                    events = [
+                        {
+                        position: { lat: 53.34557338203853, lng: -6.264154289603847 },
+                        title: "Temple Bar",
+                        map,
+                        },
+                        {
+                        position: { lat: 53.351944744822696, lng: -6.262893873695867 },
+                        title: "Parnell Street",
+                        map,
+                        },
+                        {
+                        position: { lat: 53.33606310633876, lng: -6.263480913409388 },
+                        title: "Diceys Garden",
+                        map,
+                        },
+                    
+                    ];
+
+                }          
+            
+
+            async function initMap() {
+                
+                // The location of Dublin
+                const Dublin = { lat: 53.347619, lng: -6.235782 };
+                const { Map, InfoWindow } = await google.maps.importLibrary("maps");
+                const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
+
+                // The map, centered at Dublin
+                map = new Map(document.getElementById("map"), {
+                    zoom: 13,
+                    center: Dublin,
+                    mapId: "test",
+                });
+
+                //To create a draggable  marker
+                const infoWindow = new InfoWindow();
+
+                const contentString = " Test"
+
+
+                const markerbg = new PinElement({
+                    background: "#33322e",
+                    glyphColor: "white",
+                    scale: 1.25,
+                    borderColor: "#000000",
+                });
+
+                const draggableMarker = new AdvancedMarkerElement({
+                    map,
+                    position: Dublin,
+                    gmpDraggable: true,
+                    title: "New Event",
+                    content: markerbg.element,
+                });
+
+                
+                // Create the markers.
+                events.forEach(({ position, title }, i) => {
+                    const pin = new PinElement({
+                    glyph: `${i + 1}`,
+                    });
+                    
+                    const marker = new AdvancedMarkerElement({
+                    position,
+                    map,
+                    title: `${title}`,
+                    content: pin.element,
+                    });
+
+                    // Add a click listener for each marker, and set up the info window.
+                    marker.addListener("click", ({ domEvent, latLng }) => {
+                    const { target } = domEvent;
+                    infoWindow.close();
+                    infoWindow.setContent(title);
+                    infoWindow.open(marker.map, marker);
+                    });
+
+                    draggableMarker.addListener("click", ({ domEvent, latLng }) => {
+                    const { target } = domEvent;
+
+                    infoWindow.close();
+                    infoWindow.setContent(draggableMarker.title);
+                    infoWindow.open(marker.map, draggableMarker);
+                    });
+                });
+
+                let myLatLng;
+                const button = document.getElementById("makeMapButton");
+                //function to get co-ordinates of the marker after dragging
+                google.maps.event.addListener(draggableMarker, 'dragend', function (evt) {
+                    markerLat = evt.latLng.lat();
+                    markerLong = evt.latLng.lng();
+                    myLatLng = { lat: markerLat, lng: markerLong };
+                });
+                
+                let marker2;
+                function createMarker() {
+                    // Create the marker
+                    marker2 = new AdvancedMarkerElement({
+                        position: myLatLng,
+                        title: document.getElementById("eName").innerHTML,
+                        map,
+                });
+                }
+                events.push(marker2);
+                localStorage.setItem("events", JSON.stringify(events));
+                button.addEventListener("click", createMarker);
+            
+            }
+
+        function makeMarkerEvent() {
+            // Send marker coordinates to the backend
+            const data = {
+                lat: markerLat,
+                lng: markerLong,
+                name: document.getElementById("eName").value,
+                description: document.getElementById("eDescription").value,
+            };
+
+            fetch('/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Marker data sent successfully!');
+                } else {
+                    console.error('Failed to send marker data!');
+                }
+            })
+            .catch(error => {
+                console.error('Error sending marker data:', error);
+            });
+        }
+
+
+
+
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDisR-4EhIsf208laPDaGMx8CcKlMIcy4&libraries=places&callback=initMap" async defer></script>
+        </body>
+        
+    
+        
+    </html>

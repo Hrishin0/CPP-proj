@@ -1,0 +1,141 @@
+
+
+/* Navbar */
+li {
+  display: inline-block;
+}
+
+.navbar {
+  background: rgb(36, 35, 35);
+  height: 80px;
+  font-size: 2vh;
+  top: 0;
+  z-index: 999;
+}
+
+.navbar__container {
+  height: 80px;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+}
+
+#logo {
+  background-color: #ff8177;
+  background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 2rem;
+}
+
+.nav-link {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  width: 90px;
+  text-decoration: none;
+  min-height: 100%;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #9518fc;
+  transition: all 0.3s ease;
+}
+
+/* Jumbotron */
+
+.jumbotron {
+  background-color: #000000;
+  background: linear-gradient(to right, #161616, #000000);
+  
+}
+
+.jumbotron-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 30px;
+  margin-top: 10vh;
+}
+
+.jumbotron-heading{
+  font-size: 12vh;
+  margin-bottom: 24px;
+  background: #C9D6FF;  
+  background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);  
+  background: linear-gradient(to right, #E2E2E2, #C9D6FF); 
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -mo-text-fill-color: transparent;
+}
+
+.jumbotron-heading span,.description span {
+  background: #ee0979; 
+  background: -webkit-linear-gradient(
+    to right,
+    #ff6a00,
+    #ee0979
+  );
+  background: linear-gradient(
+    to right,
+    #ff6a00,
+    #ee0979
+  ); 
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -mo-text-fill-color: transparent;
+ 
+}
+
+.description {
+  font-size: 8vh;
+  background: #C9D6FF; 
+  background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);  
+  background: linear-gradient(to right, #E2E2E2, #C9D6FF); 
+
+  
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+
+.lead button:hover {
+  cursor: pointer;
+}
+
+.lead:hover {
+  transform: scale(1.075);
+  transition: 0.3s ease-in;
+  cursor: pointer;
+}
+
+/* map */
+
+#map{
+  height: 65vh;
+  width: 80vw;
+  margin-left: 10%;
+  margin-top: 3%;
+  margin-right: 10%;
+  padding-bottom: 2%;
+   
+}
+
+#mapbg{
+  background-color: #131313;
+}

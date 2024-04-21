@@ -1,0 +1,135 @@
+<%- include partials/header.ejs %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+  font: 400 15px/1.8 "Lato", sans-serif;
+  color: #777;
+}
+
+.bgimg-1, .bgimg-2, .bgimg-3 {
+  position: relative;
+  opacity: 0.65;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+.bgimg-1 {
+  background-image: url("https://c0.wallpaperflare.com/path/40/193/189/dublin-ireland-lights-europe-de9833ce55fd95eeed0a82c1e96eee54.jpg");
+  min-height: 100%;
+}
+
+.bgimg-2 {
+  background-image: url("https://images.unsplash.com/photo-1605969353711-234dea348ce1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  min-height: 400px;
+}
+
+.bgimg-3 {
+  background-image: url("https://r4.wallpaperflare.com/wallpaper/911/619/777/white-ceramic-mug-filled-with-beverage-and-teaspoon-wallpaper-337a236a88c58cadc8f2de0311f892c1.jpg");
+  min-height: 400px;
+}
+
+.caption {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  color: #000;
+  
+}
+
+.caption span.border {
+  background-color: #111;
+  color: #fff;
+  padding: 18px;
+  font-size: 25px;
+  letter-spacing: 10px;
+}
+
+h3 {
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font: 20px "Lato", sans-serif;
+  color: #111;
+}
+#p1,#p2,#p3{
+  font-size: 25px;
+}
+
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1024px) {
+  .bgimg-1, .bgimg-2, .bgimg-3 {
+    background-attachment: scroll;
+  }
+}
+</style>
+</head>
+<body onload="dublinFacts(), change()">
+
+<div class="bgimg-1">
+  <div class="caption">
+  <span class="border">FACTS ABOUT DUBLIN</span>
+  </div>
+</div>
+
+<div style="color: #777;background-color:white;text-align:center;padding:50px 80px;text-align: justify;">
+  <h3 style="text-align:center;"></h3>
+  <p id="p1"></p>
+</div>
+
+<div class="bgimg-2">
+  <div class="caption">
+  <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">TEMPLE BAR</span>
+  </div>
+</div>
+
+<div style="position:relative;">
+  <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;">
+  <p id="p2"></p>
+  </div>
+</div>
+
+<div class="bgimg-3">
+  <div class="caption">
+  <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">LIGHTHOUSE</span>
+  </div>
+</div>
+
+<div style="position:relative;">
+  <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;">
+  <p id="p3"></p>
+  </div>
+</div>
+
+<div class="bgimg-1">
+  <div class="caption">
+  <span class="border">THANK YOu!</span>
+  </div>
+</div>
+
+
+<script>
+  let city;
+  let x = Math.floor((Math.random() * 5) + 1);
+  function dublinFacts(){
+          fetch("https://0hh5sbohxd.execute-api.us-east-1.amazonaws.com/dev").then((response) => response.json()).then((data) => {
+              facts = data.body.facts;
+              const randomIndex = Math.floor((Math.random() * facts.length));
+              const randomIndex1 = Math.floor((Math.random() * facts.length));
+              const randomIndex2 = Math.floor((Math.random() * facts.length));
+              document.getElementById("p1").innerHTML = facts[randomIndex];
+              document.getElementById("p2").innerHTML = facts[randomIndex1];
+              document.getElementById("p3").innerHTML = facts[randomIndex2];
+      });
+  }
+  </script>
+</body>
+</html>

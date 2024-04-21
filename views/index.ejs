@@ -1,0 +1,36 @@
+<%- include partials/header.ejs %>
+<html>
+  <head>
+    <style>
+      
+      body{
+        background: none;
+      }
+      h1{
+        z-index: 1;
+      }
+      #vid{
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%; 
+        min-height: 100%;
+      }
+    </style>
+  </head>
+<body>
+  <video autoplay muted loop id="vid">
+    <source src="https://x23159596-cpp.s3.amazonaws.com/dublinbroll.mp4" type="video/mp4">
+    test
+  </video>
+  
+  <link rel="stylesheet" href="/stylesheets/otherstyle.css"/>
+<div class="jumbotron" id ="home"  style="min-height: 92vh;">
+  <div class ="jumbotron-container">
+    <h1 class="jumbotron-heading"> Discover <span>events</span> near you</h1>
+    <p class="description" style="z-index: 1;">or <span>plan</span> your own</p>
+  </div>
+</div>
+</body>
+</html>
+<%- include partials/footer.ejs %>
