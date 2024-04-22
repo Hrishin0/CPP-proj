@@ -24,11 +24,13 @@ router.get('/pg5', function(req, res, next) {
 
 router.get('/currentEvents', function (req, res, next) {
   connection.query('SELECT * FROM Events ORDER BY id desc', function (err, rows) {
+    const randomImageURL = imgdublin();
+
     if (err) {
       req.flash('error', err)
-      res.render('currentEvents', { data: '' , title: 'Event Lord'})
+      res.render('currentEvents', { data: '' , title: 'Event Lord', randomImageURL })
     } else {
-      res.render('currentEvents', { data: rows, title: 'Event Lord' })
+      res.render('currentEvents', { data: rows, title: 'Event Lord', randomImageURL  })
     }
   })
 })
@@ -43,12 +45,6 @@ router.get('/mapEvents', function (req, res, next) {
     }
   })
 })
-
-router.get('/dublin', function(req, res, next){
-  const randomImageURL = imgdublin();
-  res.render('dublin',{ title: 'Event Lord', name:null, randomImageURL });
-});
-
 
 
 router.delete('/events/:id', function(req, res, next) {

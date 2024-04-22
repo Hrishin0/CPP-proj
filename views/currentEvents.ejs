@@ -4,19 +4,25 @@
 <html lang="en">
   <head>
     <style>
-      tr:nth-child(even) {
+      tr{
         background-color: #f2f2f2;
       }
       #myButton{
-        background-color: #006de9; /* Green color */
+        background-color: #006de9; 
         border: none;
         color: white;
         padding: 15px 32px;
         text-align: center;
         text-decoration: none; /* Remove underline from link */
-        display: inline-block; /* Allow styling as a block element */
+        display: inline-block; 
         font-size: 16px;
-        cursor: pointer; /* Indicate clickable behavior */
+        cursor: pointer; 
+      }
+      body{
+        background-image: url("<%= randomImageURL %>");
+        background-size: cover;
+        position: relative;
+        height: 95vh;
       }
     </style>
     <meta charset="UTF-8" />
@@ -25,42 +31,42 @@
   </head>
   <body>
     <title> Current Events</title>
-    <div class="container mt-4">
-      <br />
-      <table class="table">
-        <thead>
-          <tr>
-            <th>#Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th>Action</th>            </tr>
-        </thead>
-        <tbody>
-          <% if(data.length){ for(var i = 0; i< data.length; i++) {%>
-          <tr>
-            <th scope="row"><%= (i+1) %></th>
-            <td><%= data[i].eventName%></td>
-            <td><%= data[i].placeholder%></td>
-            <td><%= data[i].lat%></td>
-            <td><%= data[i].lng%></td>
-            <td>  <button class="btn btn-outline-danger btn-sm delete-event" data-event-id="<%= data[i].id %>">Delete</button>
-            <button class="btn btn-outline-info btn-sm edit-event" data-event-id="<%= data[i].id %>">Edit</button>
-                </td>
-          </tr>
-          <% } }else{ %>
-          <tr>
-            <td>No data ever existed.</td>
-          </tr>
-          <% } %>
-        </tbody>
-      </table>
-    </div>
-    <div style="text-align: center;">
-      <br/><br/><br/><br/><br/><br/>
-      <a href="https://d3c9nb9b61mr41.cloudfront.net" id="myButton" target="_blank">Click here to watch a short montage on Dublin tourism</a>
-    </div>
+      <div class="container mt-4">
+        <br />
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#Id</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
+              <th>Action</th>            </tr>
+          </thead>
+          <tbody>
+            <% if(data.length){ for(var i = 0; i< data.length; i++) {%>
+            <tr>
+              <th scope="row"><%= (i+1) %></th>
+              <td><%= data[i].eventName%></td>
+              <td><%= data[i].placeholder%></td>
+              <td><%= data[i].lat%></td>
+              <td><%= data[i].lng%></td>
+              <td>  <button class="btn btn-outline-danger btn-sm delete-event" data-event-id="<%= data[i].id %>">Delete</button>
+              <button class="btn btn-outline-info btn-sm edit-event" data-event-id="<%= data[i].id %>">Edit</button>
+                  </td>
+            </tr>
+            <% } }else{ %>
+            <tr>
+              <td>No data ever existed.</td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+      <div style="text-align: center;">
+        <br/><br/><br/><br/><br/><br/>
+        <a href="https://d3ernokgfk5wft.cloudfront.net" id="myButton" target="_blank">Click here to watch a short montage on Dublin tourism</a>
+      </div>
     <script>  
       const deleteButtons = document.querySelectorAll('.delete-event');
 
